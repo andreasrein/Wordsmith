@@ -1,0 +1,20 @@
+:root {
+  /* Colors */
+  --green-1: #425F57;
+  --green-2: #749F82;
+  --green-3: #A8E890;
+  --green-4: #CFFF8D;
+  --white: #ffffff;
+  --black: #000000;
+
+  /* Gutters */
+  --gutter-xs: 0.25rem;
+  --gutter-s: 0.5rem;
+  --gutter-m: 0.75rem;
+  --gutter-l: 1rem;
+  --gutter-xl: 1.50rem;
+  --gutter-xxl: 2rem;
+
+  /* General */
+  --border-radius: 6px;
+}
