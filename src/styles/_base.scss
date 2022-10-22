@@ -9,8 +9,8 @@
 
 body {
   min-height: 100vh;
-  color: var(--black);
-  background: var(--green-1);
+  color: $black;
+  background: $green-1;
   /* 
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
@@ -25,19 +25,19 @@ main {
   height: 100%;
 }
 .form input {
-  background-color: var(--white);
-  padding: var(--gutter-l);
+  background-color: $white;
+  padding: $gutter-l;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-radius: 6px;
 }
 .form label {
-  margin-bottom: var(--gutter-xs);
+  margin-bottom: $gutter-xs;
   font-weight: bold;
 }
 form button {
-  background-color: var(--green-4);
-  padding: var(--gutter-l) var(--gutter-xl);
-  border-radius: var(--border-radius);
+  background-color: $green-4;
+  padding: $gutter-l $gutter-xl;
+  border-radius: $border-radius;
   font-weight: bold;
   cursor: pointer;
 }
@@ -46,7 +46,7 @@ form button:hover {
 }
 .form input::placeholder,
 .form input::-ms-input-placeholder {
-  color: var(--black);
+  color: $black;
   opacity: .4;
 }
 

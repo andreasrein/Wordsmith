@@ -1,9 +1,10 @@
 <script>
-import { RouterView } from 'vue-router'
+import "./styles/index.scss";
+import { RouterView } from "vue-router";
 
 export default {
-  components: { RouterView }
-}
+  components: { RouterView },
+};
 </script>
 
 <template>
@@ -12,4 +13,3 @@ export default {
     <RouterView />
   </main>
 </template>
-

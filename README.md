@@ -1,38 +1,31 @@
-# wordsmith
+# Wordsmith
 
-## Project Setup
-
-```sh
-npm install
+## Project setup
+```
+yarn install
 ```
 
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
+### Compiles and hot-reloads for development
+```
+yarn serve
 ```
 
-### Compile and Minify for Production
-
-```sh
-npm run build
+### Compiles and minifies for production
+```
+yarn build
 ```
 
-### Run Headed Component Tests with [Cypress Component Testing](https://on.cypress.io/component)
-
-```sh
-npm run test:unit # or `npm run test:unit:ci` for headless testing
+### Run your unit tests
+```
+yarn test:unit
 ```
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
-
-```sh
-npm run build
-npm run test:e2e # or `npm run test:e2e:ci` for headless testing
+### Run your end-to-end tests
+```
+yarn test:e2e
 ```
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
+### Lints and fixes files
+```
+yarn lint
 ```
