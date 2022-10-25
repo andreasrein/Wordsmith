@@ -1,7 +1,7 @@
 <script>
-import LoginForm from "../components/LoginForm.vue";
-import MainLogo from "../components/icons/MainLogo.vue";
-import BackgroundLetter from "../components/icons/BackgroundLetter.vue";
+import LoginForm from '../components/LoginForm.vue';
+import MainLogo from '../components/icons/MainLogo.vue';
+import BackgroundLetter from '../components/icons/BackgroundLetter.vue';
 
 export default {
   components: { LoginForm, MainLogo, BackgroundLetter },

@@ -13,13 +13,6 @@ module.exports = {
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
-    'vue/script-setup-uses-vars': 'warn',
-    'vue/no-multi-spaces': [
-      'error',
-      {
-        ignoreProperties: false
-      }
-    ],
     "vue/script-indent": ["error", 2, { "switchCase": 1, "baseIndent": 0 }],
     "vue/html-indent": ["error", 2, {
       "attribute": 1,

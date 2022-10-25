@@ -1,8 +1,8 @@
-import { shallowMount } from "@vue/test-utils"
-import LoginForm from "@/components/LoginForm.vue"
+import { shallowMount } from '@vue/test-utils'
+import LoginForm from '@/components/LoginForm.vue'
 
-describe("LoginForm", () => {
-  it("Render the input fields", () => {
+describe('LoginForm', () => {
+  it('Render the input fields', () => {
     const wrapper = shallowMount(LoginForm)
 
     const inputEmail = wrapper.get('[data-test="email"]')

@@ -1,6 +1,6 @@
 <script>
-import "./styles/index.scss";
-import { RouterView } from "vue-router";
+import './styles/index.scss';
+import { RouterView } from 'vue-router';
 
 export default {
   components: { RouterView },
