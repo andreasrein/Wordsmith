@@ -1,27 +1,30 @@
 <template>
   <div class="login-form">
-    <form action="" class="form">
+    <form class="form" data-test="login-form">
       <h1>Välkomment till Wordsmith!</h1>
       <div class="login-form__row">
         <label for="email-input">E-post</label>
         <input
           type="email"
-          id="email-input"
+          id="email-input"  
           name="email"
           placeholder="john.doh@email.com"
-          required
           aria-required="true"
+          data-test="email"
+          v-model="email"
         />
       </div>
-      <div class="login-form__row">
+      <div class="login-form__row">  
         <label for="email-input">Lösenord</label>
         <input
           type="password"
           id="password-input"
           name="password"
           placeholder="********"
-          required
           aria-required="true"
+          minlength="8"
+          data-test="password"
+          v-model="password"
         />
       </div>
       <div class="align-right">
@@ -30,6 +33,17 @@
     </form>
   </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      email: '',
+      password: ''
+    }
+  }
+};
+</script>
 
 <style lang="scss">
 .login-form {
