@@ -1,12 +1,3 @@
-<script>
-import LoginForm from '../components/LoginForm.vue';
-import MainLogo from '../components/icons/MainLogo.vue';
-import BackgroundLetter from '../components/icons/BackgroundLetter.vue';
-
-export default {
-  components: { LoginForm, MainLogo, BackgroundLetter },
-};
-</script>
 <template>
   <div class="login-view">
     <div class="login-view__main">
@@ -25,6 +16,21 @@ export default {
     </aside>
   </div>
 </template>
+
+<script>
+import LoginForm from '../components/LoginForm.vue';
+import MainLogo from '../components/icons/MainLogo.vue';
+import BackgroundLetter from '../components/icons/BackgroundLetter.vue';
+
+export default {
+  name: 'LoginView',
+  components: {
+    LoginForm,
+    MainLogo,
+    BackgroundLetter
+  }
+}
+</script>
 
 <style lang="scss">
 .login-view {

@@ -1,0 +1,31 @@
+form {
+  & input {
+    background-color: $white;
+    padding: $gutter-l;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 6px;
+  }
+  & label {
+    margin-bottom: $gutter-xs;
+    font-weight: bold;
+  }
+  & button {
+    background-color: $green-4;
+    padding: $gutter-l $gutter-xl;
+    border-radius: $border-radius;
+    font-weight: bold;
+    cursor: pointer;
+    &[disabled] {
+      background-color: rgba($green-4, 0.4);
+      color: rgba($black, 0.4);
+    }
+  }
+  & button:hover {
+    filter: brightness(85%);
+  }
+  & input::placeholder,
+  & input::-ms-input-placeholder {
+    color: $black;
+    opacity: .4;
+  }
+}

@@ -6,23 +6,25 @@
     <div class="home__logo">
       <MainLogo />
     </div>
-    <form class="home__form">
-      <div class="home__form__input">
-        <label for="smithing-field">Skriv din mening här</label>
-        <input type="text" id="smithing-field">
-      </div>
-      <div class="home__form__button">
-        <button type="button">Smith it!</button>
-      </div>
-    </form>
+    <SmithingInput />
+    <SmithingHistory />
   </div>
 </template>
+
 <script>
 import MainLogo from '@/components/icons/MainLogo.vue'
 import BackgroundLetter from '@/components/icons/BackgroundLetter.vue'
+import SmithingInput from '@/components/SmithingInput.vue'
+import SmithingHistory from '@/components/SmithingHistory.vue'
 
 export default {
-  components: { MainLogo, BackgroundLetter }
+  name: 'HomeView',
+  components: { 
+    MainLogo,
+    BackgroundLetter,
+    SmithingInput,
+    SmithingHistory
+  }
 }
 </script>
 
