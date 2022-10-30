@@ -2,10 +2,6 @@
   <div class="login-form">
     <form class="form" data-test="login-form" @click.prevent="handleSubmit">
       <h1>Välkomment till Wordsmith!</h1>
-      <div v-if="showError">
-        <h3>Fel användarnamn eller lösenord</h3>
-        <p>Kolla att du inte stavat fel och sedan försök igen!</p>
-      </div>
       <div class="login-form__row">
         <label for="email-input">E-post</label>
         <input

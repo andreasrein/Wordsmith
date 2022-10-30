@@ -61,12 +61,12 @@ export default {
   &__background {
     position: absolute;
     right: 0;
-    bottom: 0;
+    top: 0;
     z-index: -1;
   }
 }
 
-@media (min-width: 800px) {
+@media all and (min-width: 800px) {
   .login-view__main__logo {
     display: none;
   }
