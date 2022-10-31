@@ -5,7 +5,11 @@
       <input type="text" id="smithing-field">
     </div>
     <div class="home__form__button">
-      <button type="button">Smith it!</button>
+      <button
+        type="button"
+        class="primary">
+        Smith it!
+      </button>
     </div>
   </form>
 </template>

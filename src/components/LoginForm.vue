@@ -28,7 +28,12 @@
         />
       </div>
       <div class="align-right">
-        <button type="submit" :disabled="isButtonDisabled">Logga in</button>
+        <button
+          type="submit"
+          class="primary"
+          :disabled="isButtonDisabled">
+          Logga in
+        </button>
       </div>
     </form>
   </div>

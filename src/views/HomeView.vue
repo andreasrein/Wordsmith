@@ -3,9 +3,9 @@
     <div class="home__background">
       <BackgroundLetter />
     </div>
-    <div class="home__logo">
+    <section class="home__logo">
       <MainLogo />
-    </div>
+    </section>
     <SmithingInput />
     <SmithingHistory />
   </div>
