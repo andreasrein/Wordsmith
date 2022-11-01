@@ -3,7 +3,7 @@ button {
   font-weight: bold;
   cursor: pointer;
   border: none;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color .2s ease-in-out, transform .2s ease-in-out;
   &[disabled] {
     background-color: rgba($green-4, 0.4);
     color: rgba($black, 0.4);
@@ -26,5 +26,14 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
+    &:hover {
+      transform: scale(1.2);
+    }
+    &:active {
+      transform: scale(1);
+    }
+    &--green {
+      color: $green-4;
+    }
   }
 }
