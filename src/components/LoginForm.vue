@@ -1,6 +1,6 @@
 <template>
   <div class="login-form">
-    <form class="form" data-test="login-form" @click.prevent="handleSubmit">
+    <form class="form" data-test="login-form" @submit.prevent="handleSubmit">
       <h1>Välkomment till Wordsmith!</h1>
       <div class="login-form__row">
         <label for="email-input">E-post</label>
@@ -11,7 +11,7 @@
           placeholder="john.doh@email.com"
           aria-required="true"
           data-test="email"
-          v-model="email"
+          v-model="username"
         />
       </div>
       <div class="login-form__row">  
@@ -44,18 +44,22 @@ export default {
   name: 'LoginForm',
   data () {
     return {
-      email: '',
+      username: '',
       password: ''
     }
   },
   methods: {
     handleSubmit () {
-      // Post login credentials
+      const payload = {
+        username: this.username,
+        password: this.password
+      }
+      this.$store.dispatch('auth/login', payload)
     }
   },
   computed: {
     isButtonDisabled () {
-      if (this.email.length < 1 && this.password.length < 1) {
+      if (this.username.length < 1 && this.password.length < 1) {
         return true
       }
       return false

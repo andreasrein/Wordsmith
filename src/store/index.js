@@ -1,9 +1,11 @@
 import { createStore } from "vuex";
+import { auth } from './auth.js'
 
 export default createStore({
-  state: {},
-  getters: {},
-  mutations: {},
-  actions: {},
-  modules: {},
+  state: {
+    api: 'https://ws-api.alphadev.se'
+  },
+  modules: {
+    auth
+  }
 });
