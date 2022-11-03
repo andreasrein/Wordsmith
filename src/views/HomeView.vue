@@ -47,49 +47,10 @@ export default {
     display: flex;
     width: 100%;
     justify-content: center;
-    margin-bottom: calc($gutter-xxl * 4);
+    margin-bottom: calc($gutter-xxl * 3);
     max-width: 340px;
     margin-top: 20vh;
     padding: $gutter-l;
-  }
-  &__form {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    align-items: flex-end;
-    padding: $gutter-l;
-    &__input {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      color: $white;
-    }
-    &__button {
-      flex: 1;
-      width: 100%;
-      margin-left: $gutter-l;
-      margin-top: $gutter-l;
-      button {
-        width: 100%;
-        text-align: center;
-      }
-    }
-
-  }
-}
-@media all and (min-width: 500px) {
-  .home__form__button {
-    flex: none;
-    width: auto;
-    margin-top: $gutter-l;
-  }
-  .home__form {
-    flex-direction: row;
-  }
-}
-@media all and (min-width: 800px) {
-  .home__form {
-    flex-direction: row;
   }
 }
 </style>
