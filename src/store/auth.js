@@ -6,10 +6,16 @@ export const auth = {
   namespaced: true,
   state: {
     token: null,
-    tokenPoll: null
+    tokenPoll: null,
+    loginErr: null,
+    loadingLogin: false
   },
   actions: {
-    login ({ commit, dispatch, rootState }, payload) {
+    login ({ commit, dispatch, rootState, state }, payload) {
+      commit('SET_LOADING_LOGIN', true)
+      if (state.loginErr) {
+        commit('CLEAR_ERR')
+      }
       const headers = { 
         headers: {
           'accept': 'application/json',
@@ -20,9 +26,12 @@ export const auth = {
       axios.post(`${rootState.api}/login`, payload, headers)
         .then(res => {
           commit('SET_AUTH', res.data.token)
+          commit('SET_LOADING_LOGIN', false)
           dispatch('tokenRefresh')
         })
         .catch(e => {
+          commit('SET_UNAUTH', e)
+          commit('SET_LOADING_LOGIN', false)
           console.log(e)
         })
     },
@@ -57,6 +66,15 @@ export const auth = {
       state.token = data
       localStorage.setItem('ws_token', data)
       router.push('/')
+    },
+    SET_UNAUTH (state, data) {
+      state.loginErr = data
+    },
+    CLEAR_ERR (state) {
+      state.loginErr = null
+    },
+    SET_LOADING_LOGIN (state, data) {
+      state.loadingLogin = data
     }
   }
 }
