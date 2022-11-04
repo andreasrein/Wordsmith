@@ -52,6 +52,12 @@ export default {
           return word.split('').reverse().join('')
         }).join('')
 
+      const payload = {
+        sentence: this.smithInput,
+        reversed: result
+      }
+      this.$store.dispatch('sentence/postSentence', payload)
+
       this.result = result
       this.smithInput = ''
     }

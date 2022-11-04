@@ -2,10 +2,9 @@
   <div class="login-form">
     <form class="form" data-test="login-form" @submit.prevent="handleSubmit">
       <h1>Välkomment till Wordsmith!</h1>
-      <aside v-if="loginErr" class="login-form__err">
-        <h3 class="login-form__err__header">Misslyckad inloggning!</h3>
-        <div>Kontrollera att användarnamn och lösenord är korrekt och försök igen.</div>
-      </aside>
+      <AlertBlock v-if="loginErr" :err="loginErr" label="Misslyckad inloggning!">
+        <span>Kontrollera att användarnamn och lösenord är korrekt och försök igen.</span>
+      </AlertBlock>
       <div class="login-form__row">
         <label for="email-input">E-post</label>
         <input
@@ -27,7 +26,6 @@
           name="password"
           placeholder="********"
           aria-required="true"
-          minlength="8"
           :disabled="loadingLogin"
           data-test="password"
           v-model="password"
@@ -51,9 +49,14 @@
 <script>
 import { mapState } from 'vuex';
 import SpinnerIcon from '@/components/icons/SpinnerIcon.vue'
+import AlertBlock from '@/components/AlertBlock.vue'
+
 export default {
   name: 'LoginForm',
-  components: { SpinnerIcon },
+  components: {
+    SpinnerIcon,
+    AlertBlock
+  },
   data () {
     return {
       username: '',
@@ -107,15 +110,6 @@ export default {
     align-items: center;
     &__spinner {
       margin-right: $gutter-l;
-    }
-  }
-  &__err {
-    padding: $gutter-l;
-    margin-bottom: $gutter-xl;
-    background-color: $yellow-1;
-    border-radius: $border-radius;
-    &__header {
-      margin-bottom: $gutter-s;
     }
   }
 

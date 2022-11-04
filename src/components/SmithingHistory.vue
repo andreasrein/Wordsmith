@@ -1,89 +1,119 @@
 <template>
   <section class="smithing-history">
-    <div class="smithing-history__header">
-      <h3>Tidigare meningar</h3>
-      <button type="button" class="minor" @click="toggleModal">
-        <span>Sortera</span>
-        <SortIcon />
-      </button>
+    <div v-show="loadingSentences" class="smithing-history__logo">
+      <SpinnerIcon/>
     </div>
-    <div class="smithing-history__list">
-      <div class="smithing-history__list__header">
-        <div>Datum</div>
-        <div>Text</div>
+    <div v-if="sentences.length > 0 && !loadingSentences">
+      <div class="smithing-history__header">
+        <h3>Tidigare meningar</h3>
+        <button type="button" class="minor" @click="toggleModal">
+          <span>Sortera</span>
+          <SortIcon />
+        </button>
       </div>
-      <ul class="smithing-list">
-        <li class="smithing-list__item">
-          <div class="smithing-list__item__date">2022-02-12</div>
-          <div>ehT der xof sessorc eht eci, tnetni no enon fo ym ssenisub.</div>
-        </li>
-        <li class="smithing-list__item">
-          <div class="smithing-list__item__date">2022-02-12</div>
-          <div>ehT der xof sessorc eht eci, tnetni no enon fo ym ssenisub.</div>
-        </li>
-        <li class="smithing-list__item">
-          <div class="smithing-list__item__date">2022-02-12</div>
-          <div>ehT der xof sessorc eht eci, tnetni no enon fo ym ssenisub.</div>
-        </li>
-      </ul>
+      <div class="smithing-history__list">
+        <div class="smithing-history__list__header">
+          <div>Datum</div>
+          <div>Text</div>
+        </div>
+        <ul class="smithing-list">
+          <li class="smithing-list__item" v-for="sentence in sentences" :key="sentence.id">
+            <div class="smithing-list__item__date">{{convertDate(sentence.created)}}</div>
+            <div>{{sentence.reversed}}</div>
+          </li>
+        </ul>
+      </div>
+      <Modal
+        v-if="showModal"
+        size="s"
+        @onClose="toggleModal">
+        <template v-slot:header>Sortera</template>
+        <section class="modal-sort">
+          <div>
+            <div class="modal-sort__item">
+              <input
+                type="radio"
+                id="dateAsc"
+                name="sort"
+                value="dateAsc"
+                v-model="sortOption"/>
+              <label for="dateAsc">Datum (0-9)</label>
+            </div>
+            <div class="modal-sort__item">
+              <input
+                type="radio"
+                id="dateDesc"
+                name="sort"
+                value="dateDesc"
+                v-model="sortOption"/>
+              <label for="dateDesc">Datum (9-0)</label>
+            </div>
+          </div>
+          <div>
+            <div class="modal-sort__item">
+              <input
+                type="radio"
+                id="textAsc"
+                name="sort"
+                value="textAsc"
+                v-model="sortOption"/>
+              <label for="textAsc">Text (A-Ö)</label>
+            </div>
+            <div class="modal-sort__item">
+              <input
+                type="radio"
+                id="textDesc"
+                name="sort"
+                value="textDesc"
+                v-model="sortOption"/>
+              <label for="textDesc">Text (Ö-A)</label>
+            </div>
+          </div>
+        </section>
+        <template v-slot:footer>
+          <div class="modal-sort__footer">
+            <button type="button" class="primary align-right" @click="toggleModal">
+              Klar
+            </button>
+          </div>
+        </template>
+      </Modal>
     </div>
-    <Modal
-      v-if="showModal"
-      size="s"
-      @onClose="toggleModal">
-      <template v-slot:header>Sortera</template>
-      <section class="modal-sort">
-        <div>
-          <div class="modal-sort__item">
-            <input type="radio" id="dateAsc" name="date"/>
-            <label for="dateAsc">Datum (0-9)</label>
-          </div>
-          <div class="modal-sort__item">
-            <input type="radio" id="dateDesc" name="date"/>
-            <label for="dateDesc">Datum (9-0)</label>
-          </div>
-        </div>
-        <div>
-          <div class="modal-sort__item">
-            <input type="radio" id="textAsc" name="text"/>
-            <label for="textAsc">Text (A-Ö)</label>
-          </div>
-          <div class="modal-sort__item">
-            <input type="radio" id="textDesc" name="text"/>
-            <label for="textDesc">Text (Ö-A)</label>
-          </div>
-        </div>
-      </section>
-      <template v-slot:footer>
-        <div class="modal-sort__footer">
-          <button
-            type="button"
-            class="primary align-right"
-            @click="toggleModal">
-            Klar
-          </button>
-        </div>
-      </template>
-    </Modal>
   </section>
 </template>
 
 <script>
 import SortIcon from '@/components/icons/SortIcon.vue'
 import Modal from '@/components/Modal.vue'
+import SpinnerIcon from '@/components/icons/SpinnerIcon.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'SmithingList',
   data () {
     return {
-      showModal: false
+      showModal: false,
+      sortOption: 'dateAsc'
     }
   },
   components: {
     SortIcon,
-    Modal
+    Modal,
+    SpinnerIcon
+  },
+  mounted () {
+    this.$store.dispatch('sentence/getSentences')
+  },
+  computed: {
+    ...mapState({
+      sentences: state => state.sentence.storedSentences,
+      loadingSentences: state => state.sentence.loadingSentences
+    })
   },
   methods: {
+    convertDate (string) {
+      return (new Date(string)).toISOString().split('T')[0]
+    },
     toggleModal () {
       this.showModal = !this.showModal
     }
@@ -96,6 +126,12 @@ export default {
     width: 100%;
     padding: $gutter-l;
     color: $white;
+    &__logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: rotateY 1.5s ease-out, fadeinout 1.5s linear;
+    }
     &__header {
       display: flex;
       flex-direction: row;

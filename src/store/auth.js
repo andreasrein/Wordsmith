@@ -14,7 +14,7 @@ export const auth = {
     login ({ commit, dispatch, rootState, state }, payload) {
       commit('SET_LOADING_LOGIN', true)
       if (state.loginErr) {
-        commit('CLEAR_ERR')
+        commit('SET_UNAUTH', null)
       }
       const headers = { 
         headers: {
@@ -69,9 +69,6 @@ export const auth = {
     },
     SET_UNAUTH (state, data) {
       state.loginErr = data
-    },
-    CLEAR_ERR (state) {
-      state.loginErr = null
     },
     SET_LOADING_LOGIN (state, data) {
       state.loadingLogin = data

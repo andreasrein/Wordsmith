@@ -6,6 +6,11 @@
     <section class="home__logo">
       <MainLogo />
     </section>
+    <div class="home__err">
+      <AlertBlock v-if="sentenceErr" :err="sentenceErr" label="Något gick snett!">
+        <span>Försök igen!</span>
+      </AlertBlock>
+    </div>
     <SmithingInput />
     <SmithingHistory />
   </div>
@@ -16,6 +21,8 @@ import MainLogo from '@/components/icons/MainLogo.vue'
 import BackgroundLetter from '@/components/icons/BackgroundLetter.vue'
 import SmithingInput from '@/components/SmithingInput.vue'
 import SmithingHistory from '@/components/SmithingHistory.vue'
+import AlertBlock from '@/components/AlertBlock.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'HomeView',
@@ -23,7 +30,13 @@ export default {
     MainLogo,
     BackgroundLetter,
     SmithingInput,
-    SmithingHistory
+    SmithingHistory,
+    AlertBlock
+  },
+  computed: {
+    ...mapState({
+      sentenceErr: state => state.sentence.sentenceErr
+    })
   }
 }
 </script>
@@ -50,6 +63,10 @@ export default {
     margin-bottom: calc($gutter-xxl * 3);
     max-width: 340px;
     margin-top: 20vh;
+    padding: $gutter-l;
+  }
+  &__err {
+    width: 100%;
     padding: $gutter-l;
   }
 }
