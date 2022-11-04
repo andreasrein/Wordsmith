@@ -11,7 +11,7 @@
           <SortIcon />
         </button>
       </div>
-      <div class="smithing-history__list">
+      <div v-if="sentences.length > 0" class="smithing-history__list">
         <div class="smithing-history__list__header">
           <div>Datum</div>
           <div>Text</div>
@@ -22,6 +22,10 @@
             <div>{{sentence.reversed}}</div>
           </li>
         </ul>
+      </div>
+      <div v-else class="smithing-history__empty">
+        <h3>Inga sparade meningar!</h3>
+        <p>När du gjort din första mening dyker den upp här.</p>
       </div>
       <Modal
         v-if="showModal"
@@ -144,6 +148,14 @@ export default {
       button span {
         margin-right: $gutter-s;
       }
+    }
+    &__empty {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: $gutter-xl;
+      background-color: $green-0;
     }
     &__list {
       display: flex;

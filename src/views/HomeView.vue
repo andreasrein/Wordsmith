@@ -65,7 +65,7 @@ export default {
     justify-content: center;
     margin-bottom: calc($gutter-xxl * 3);
     max-width: 340px;
-    margin-top: 20vh;
+    margin-top: 10vh;
     padding: $gutter-l;
   }
   &__err {

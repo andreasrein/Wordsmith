@@ -31,7 +31,7 @@ export const sentence = {
           console.log(e)
         })
     },
-    postSentence ({commit, rootState, state}, payload) {
+    postSentence ({commit, dispatch, rootState, state}, payload) {
       if (state.sentenceErr) {
         commit('SET_SENTENCE_ERR', null)
       }
@@ -43,9 +43,8 @@ export const sentence = {
         }
       }
       axios.post(`${rootState.api}/sentence`, payload, headers)
-        .then(res => {
-          console.log(res)
-          // commit('SET_SENTENCES', res.data)
+        .then(() => {
+          dispatch('getSentences')
         })
         .catch(e => {
           commit('SET_SENTENCE_ERR', e)
