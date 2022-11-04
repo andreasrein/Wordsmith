@@ -22,7 +22,7 @@ export default {
 
 <style lang="scss">
   .footer {
-    height: 100%;
+    padding: $gutter-xl;
     display: flex;
     justify-content: center;
     align-items: center;

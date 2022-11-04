@@ -3,19 +3,16 @@
     <main>
       <RouterView />
     </main>
-    <Footer />
   </div>
 </template>
 
 <script>
 import './styles/index.scss';
 import { RouterView } from 'vue-router';
-import Footer from '@/components/Footer.vue'
 
 export default {
   components: {
-    RouterView,
-    Footer
+    RouterView
   },
   created () {
     this.$store.dispatch('auth/checkIfAuthorized')

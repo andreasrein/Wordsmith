@@ -13,6 +13,7 @@
     </div>
     <SmithingInput />
     <SmithingHistory />
+    <Footer />
   </div>
 </template>
 
@@ -22,6 +23,7 @@ import BackgroundLetter from '@/components/icons/BackgroundLetter.vue'
 import SmithingInput from '@/components/SmithingInput.vue'
 import SmithingHistory from '@/components/SmithingHistory.vue'
 import AlertBlock from '@/components/AlertBlock.vue'
+import Footer from '@/components/Footer.vue'
 import { mapState } from 'vuex'
 
 export default {
@@ -31,7 +33,8 @@ export default {
     BackgroundLetter,
     SmithingInput,
     SmithingHistory,
-    AlertBlock
+    AlertBlock,
+    Footer
   },
   computed: {
     ...mapState({
