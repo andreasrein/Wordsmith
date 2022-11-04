@@ -43,10 +43,11 @@ export default {
   methods: {
     handleSmithClick () {
       this.loading = true
+      // Timeout for dramatic effect
       setTimeout(() => {
         this.loading = false
       }, 1500);
-      const result = this.smithInput.split(/([\W])/).
+      const result = this.smithInput.split(/([^a-zA-ZÅÄÖåäö0-9_])/).
         map(word => {
           return word.split('').reverse().join('')
         }).join('')
