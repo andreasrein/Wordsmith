@@ -43,7 +43,7 @@ export default {
     z-index: 2000;
   }
   &__inner {
-    position: absolute;
+    position: fixed;
     max-height: 90%;
     width: 100%;
     top: 50%;
@@ -51,7 +51,7 @@ export default {
     background-color: $white;
     color: $black;
     border-radius: $border-radius;
-    transform: translate3d(-50%, -50%, 0);
+    transform: translate(-50%, -50%);
     overflow: auto;
     padding: $gutter-l $gutter-xl;
     z-index: 99999;
