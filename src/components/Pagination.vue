@@ -6,10 +6,11 @@
       'pagination--last-page': index === maxPage
     }">
     <button class="minor pagination__prev" @click="prevClick">
-      <ChevronLeft /> Prev
+      <ChevronLeft /> Förra
     </button>
+    <div>{{index + 1}}/{{maxPage + 1}}</div>
     <button class="minor pagination__next" @click="nextClick">
-      Next <ChevronRight />
+      Nästa <ChevronRight />
     </button>
   </section>
 </template>

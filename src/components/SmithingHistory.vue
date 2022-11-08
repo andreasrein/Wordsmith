@@ -42,20 +42,20 @@
             <div class="modal-sort__item">
               <input
                 type="radio"
-                id="dateAsc"
+                id="dateDesc"
                 name="sort"
-                value="dateAsc"
+                value="created_desc"
                 v-model="sortOption"/>
-              <label for="dateAsc">Datum (0-9)</label>
+              <label for="dateDesc">Datum (9-0)</label>
             </div>
             <div class="modal-sort__item">
               <input
                 type="radio"
-                id="dateDesc"
+                id="dateAsc"
                 name="sort"
-                value="dateDesc"
+                value="created_asc"
                 v-model="sortOption"/>
-              <label for="dateDesc">Datum (9-0)</label>
+              <label for="dateAsc">Datum (0-9)</label>
             </div>
           </div>
           <div>
@@ -64,7 +64,7 @@
                 type="radio"
                 id="textAsc"
                 name="sort"
-                value="textAsc"
+                value="reversed_asc"
                 v-model="sortOption"/>
               <label for="textAsc">Text (A-Ö)</label>
             </div>
@@ -73,7 +73,7 @@
                 type="radio"
                 id="textDesc"
                 name="sort"
-                value="textDesc"
+                value="reversed_desc"
                 v-model="sortOption"/>
               <label for="textDesc">Text (Ö-A)</label>
             </div>
@@ -103,7 +103,7 @@ export default {
   data () {
     return {
       showModal: false,
-      sortOption: 'dateAsc',
+      sortOption: 'created_desc',
       page: 0,
       pageSize: 4
     }
@@ -123,11 +123,25 @@ export default {
       loadingSentences: state => state.sentence.loadingSentences
     }),
     paginatedSentences () {
-      const start = this.page * this.pageSize
-      return this.sentences.slice(start, (start + this.pageSize))
+      if (this.sentences.length > 0) {
+        const start = this.page * this.pageSize
+        const sorting = this.sortOption.split('_')
+        const sortedAndCropped = this.sortArr(this.sentences, sorting[1], sorting[0]).slice(start, (start + this.pageSize))
+        return sortedAndCropped
+      }
+      return []
     }
   },
   methods: {
+    sortArr (arr, dir, key) {
+      const compare = (a, b) => {
+        const aTarget = key === 'created' ? new Date(a.created).getTime() : a[key]
+        const bTarget = key === 'created' ? new Date(b.created).getTime() : b[key]
+        if (aTarget < bTarget) { return dir === 'asc' ? -1 : 1 }
+        if (aTarget > bTarget) { return dir === 'asc' ? 1 : -1 }
+      }
+      return arr.sort(compare)
+    },
     handlePaginate (val) {
       this.page = val
     },
