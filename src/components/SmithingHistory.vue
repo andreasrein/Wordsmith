@@ -3,7 +3,7 @@
     <div v-show="loadingSentences" class="smithing-history__logo">
       <SpinnerIcon/>
     </div>
-    <div v-if="sentences.length > 0 && !loadingSentences">
+    <div v-if="!loadingSentences">
       <div class="smithing-history__header">
         <h3>Tidigare meningar</h3>
         <button type="button" class="minor" @click="toggleModal">
@@ -17,11 +17,16 @@
           <div>Text</div>
         </div>
         <ul class="smithing-list">
-          <li class="smithing-list__item" v-for="sentence in sentences" :key="sentence.id">
+          <li class="smithing-list__item" v-for="sentence in paginatedSentences" :key="sentence.id">
             <div class="smithing-list__item__date">{{convertDate(sentence.created)}}</div>
             <div>{{sentence.reversed}}</div>
           </li>
         </ul>
+        <Pagination
+          v-if="sentences.length > pageSize"
+          :pageSize="pageSize"
+          :total="sentences.length"
+          @onPaginate="handlePaginate" />
       </div>
       <div v-else class="smithing-history__empty">
         <h3>Inga sparade meningar!</h3>
@@ -91,30 +96,44 @@ import SortIcon from '@/components/icons/SortIcon.vue'
 import Modal from '@/components/Modal.vue'
 import SpinnerIcon from '@/components/icons/SpinnerIcon.vue'
 import { mapState } from 'vuex'
+import Pagination from './Pagination.vue'
 
 export default {
   name: 'SmithingList',
   data () {
     return {
       showModal: false,
-      sortOption: 'dateAsc'
+      sortOption: 'dateAsc',
+      page: 0,
+      pageSize: 4
     }
   },
   components: {
     SortIcon,
     Modal,
-    SpinnerIcon
+    SpinnerIcon,
+    Pagination
   },
   mounted () {
-    this.$store.dispatch('sentence/getSentences')
+    this.getSentencesList()
   },
   computed: {
     ...mapState({
       sentences: state => state.sentence.storedSentences,
       loadingSentences: state => state.sentence.loadingSentences
-    })
+    }),
+    paginatedSentences () {
+      const start = this.page * this.pageSize
+      return this.sentences.slice(start, (start + this.pageSize))
+    }
   },
   methods: {
+    handlePaginate (val) {
+      this.page = val
+    },
+    getSentencesList () {
+      this.$store.dispatch('sentence/getSentences')
+    },
     convertDate (string) {
       return (new Date(string)).toISOString().split('T')[0]
     },
@@ -174,7 +193,7 @@ export default {
       }
     }
     .smithing-list {
-      margin: 0;
+      margin: 0 0 $gutter-xl 0;
       padding: 0;
       &__item {
         background-color: rgba($green-2, 0.2);

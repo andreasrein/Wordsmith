@@ -36,6 +36,7 @@ export default {
 .login-view {
   display: flex;
   min-height: 100vh;
+  overflow: hidden;
   &__main {
     display: flex;
     flex-direction: column;
