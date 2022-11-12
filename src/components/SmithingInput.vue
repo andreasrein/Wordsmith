@@ -13,14 +13,16 @@
           type="text"
           id="smithing-field"
           v-model="smithInput"
-          placeholder="The red fox crosses the ice…">
+          placeholder="The red fox crosses the ice…"
+          ref="smithingInput">
       </div>
       <div class="smithing-input__form__button">
         <button
           type="button"
           class="primary"
           :disabled="smithInput.length < 1"
-          @click="handleSmithClick">
+          @click="handleSmithClick"
+          ref="smithingButton">
           Smith it!
         </button>
       </div>
@@ -30,6 +32,7 @@
 
 <script>
 import AcronymLogo from '@/components/icons/AcronymLogo.vue'
+import { mapActions } from 'vuex'
 export default {
   name: 'SmithingInput',
   components: { AcronymLogo },
@@ -41,12 +44,16 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      postSentence: 'sentence/postSentence'
+    }),
     handleSmithClick () {
       this.loading = true
       // Timeout for dramatic effect
       setTimeout(() => {
         this.loading = false
-      }, 1500);
+      }, 1500)
+      // Split and reverse on everything that is not matched
       const result = this.smithInput.split(/([^a-zA-ZÅÄÖåäö0-9_])/).
         map(word => {
           return word.split('').reverse().join('')
@@ -56,7 +63,7 @@ export default {
         sentence: this.smithInput,
         reversed: result
       }
-      this.$store.dispatch('sentence/postSentence', payload)
+      this.postSentence(payload)
 
       this.result = result
       this.smithInput = ''

@@ -14,7 +14,7 @@
           placeholder="john.doh@email.com"
           aria-required="true"
           :disabled="loadingLogin"
-          data-test="email"
+          ref="loginEmail"
           v-model="username"
         />
       </div>
@@ -27,7 +27,7 @@
           placeholder="********"
           aria-required="true"
           :disabled="loadingLogin"
-          data-test="password"
+          ref="loginPassword"
           v-model="password"
         />
       </div>
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import SpinnerIcon from '@/components/icons/SpinnerIcon.vue'
 import AlertBlock from '@/components/AlertBlock.vue'
 
@@ -64,12 +64,15 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      login: 'auth/login'
+    }),
     handleSubmit () {
       const payload = {
         username: this.username,
         password: this.password
       }
-      this.$store.dispatch('auth/login', payload)
+      this.login(payload)
     }
   },
   computed: {
