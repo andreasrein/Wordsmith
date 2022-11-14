@@ -14,7 +14,8 @@
           id="smithing-field"
           v-model="smithInput"
           placeholder="The red fox crosses the ice…"
-          ref="smithingInput">
+          ref="smithingInput"
+          data-cy="smithingInput">
       </div>
       <div class="smithing-input__form__button">
         <button
@@ -22,7 +23,8 @@
           class="primary"
           :disabled="smithInput.length < 1"
           @click="handleSmithClick"
-          ref="smithingButton">
+          ref="smithingButton"
+          data-cy="smithingButton">
           Smith it!
         </button>
       </div>

@@ -6,7 +6,11 @@
     <div v-if="!loadingSentences">
       <div class="smithing-history__header">
         <h3>Tidigare meningar</h3>
-        <button type="button" class="minor" @click="toggleModal">
+        <button
+          type="button"
+          class="minor"
+          data-cy="sortModalBtn"
+          @click="toggleModal">
           <span>Sortera</span>
           <SortIcon />
         </button>
@@ -17,9 +21,12 @@
           <div>Text</div>
         </div>
         <ul class="smithing-list">
-          <li class="smithing-list__item" v-for="sentence in paginatedSentences" :key="sentence.id">
+          <li
+            class="smithing-list__item"
+            v-for="sentence in paginatedSentences"
+            :key="sentence.id">
             <div class="smithing-list__item__date">{{convertDate(sentence.created)}}</div>
-            <div>{{sentence.reversed}}</div>
+            <div data-cy="reversedSentence">{{sentence.reversed}}</div>
           </li>
         </ul>
         <Pagination
@@ -44,6 +51,7 @@
                 type="radio"
                 id="dateDesc"
                 name="sort"
+                data-cy="sortCreatedDescRadio"
                 value="created_desc"
                 v-model="sortOption"/>
               <label for="dateDesc">Datum (9-0)</label>
@@ -53,6 +61,7 @@
                 type="radio"
                 id="dateAsc"
                 name="sort"
+                data-cy="sortCreatedAscRadio"
                 value="created_asc"
                 v-model="sortOption"/>
               <label for="dateAsc">Datum (0-9)</label>
@@ -65,6 +74,7 @@
                 id="textAsc"
                 name="sort"
                 value="reversed_asc"
+                data-cy="sortTextAscRadio"
                 v-model="sortOption"/>
               <label for="textAsc">Text (A-Ö)</label>
             </div>
@@ -73,6 +83,7 @@
                 type="radio"
                 id="textDesc"
                 name="sort"
+                data-cy="sortTextDescRadio"
                 value="reversed_desc"
                 v-model="sortOption"/>
               <label for="textDesc">Text (Ö-A)</label>
@@ -81,7 +92,11 @@
         </section>
         <template v-slot:footer>
           <div class="modal-sort__footer">
-            <button type="button" class="primary align-right" @click="toggleModal">
+            <button
+              type="button"
+              class="primary align-right"
+              data-cy="closeModalBtn"
+              @click="toggleModal">
               Klar
             </button>
           </div>

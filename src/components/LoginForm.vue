@@ -15,6 +15,7 @@
           aria-required="true"
           :disabled="loadingLogin"
           ref="loginEmail"
+          data-cy="loginEmail"
           v-model="username"
         />
       </div>
@@ -28,6 +29,7 @@
           aria-required="true"
           :disabled="loadingLogin"
           ref="loginPassword"
+          data-cy="loginPassword"
           v-model="password"
         />
       </div>
@@ -38,7 +40,8 @@
         <button
           type="submit"
           class="primary"
-          :disabled="isButtonDisabled">
+          :disabled="isButtonDisabled"
+          data-cy="loginSubmit">
           <span>{{loadingLogin ? 'Loggar in' : 'Logga in'}}</span>
         </button>
       </div>

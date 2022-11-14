@@ -1,7 +1,7 @@
 <template>
   <section class="modal">
     <aside class="modal__cover" @click="handleClose"></aside>
-    <div class="modal__inner" :class="`modal__inner--${size}`">
+    <div class="modal__inner" :class="`modal__inner--${size}`" data-cy="modal">
       <header class="modal__inner__header">
         <h2>
           <slot name="header"></slot>

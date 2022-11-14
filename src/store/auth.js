@@ -32,7 +32,7 @@ export const auth = {
         .catch(e => {
           commit('SET_UNAUTH', e)
           commit('SET_LOADING_LOGIN', false)
-          console.log(e)
+          console.warn(e)
         })
     },
     checkIfAuthorized ({ dispatch, commit }) {

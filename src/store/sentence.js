@@ -28,7 +28,7 @@ export const sentence = {
         .catch(e => {
           commit('SET_LOADING_SENTENCES', false)
           commit('SET_SENTENCE_ERR', e)
-          console.log(e)
+          console.warn(e)
         })
     },
     postSentence ({commit, dispatch, rootState, state}, payload) {
@@ -48,7 +48,7 @@ export const sentence = {
         })
         .catch(e => {
           commit('SET_SENTENCE_ERR', e)
-          console.log(e)
+          console.warn(e)
         })
     }
   },
