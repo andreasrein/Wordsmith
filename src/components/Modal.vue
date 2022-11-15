@@ -56,10 +56,7 @@ export default {
     padding: $gutter-l $gutter-xl;
     z-index: 99999;
     box-shadow: 0 4px 16px 0 rgba($green-2, .3);
-    &--s {
-      max-width: 360px;
-    }
-    &--l {
+    &--s, &--m {
       max-width: calc(100% - (#{$gutter-l} * 2));
     }
     &__header {
@@ -69,6 +66,16 @@ export default {
     &__footer {
       margin-top: calc($gutter-xl * 2);
     }
+  }
+}
+@media all and (min-width: calc(360px + ($gutter-l * 2))) {
+  .modal__inner--s {
+    max-width: 360px;
+  }
+}
+@media all and (min-width: calc(800px + ($gutter-l * 2))) {
+  .modal__inner--m {
+    max-width: 800px;
   }
 }
 </style>

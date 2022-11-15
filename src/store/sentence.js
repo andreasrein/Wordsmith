@@ -5,7 +5,8 @@ export const sentence = {
   state: {
     storedSentences: [],
     loadingSentences: false,
-    sentenceErr: null
+    sentenceErr: null,
+    selectedSentences: []
   },
   actions: {
     getSentences ({commit, rootState, state}) {
@@ -61,6 +62,14 @@ export const sentence = {
     },
     SET_SENTENCE_ERR (state, data) {
       state.sentenceErr = data
+    },
+    SET_SELECTED_SENTENCES (state, data) {
+      state.selectedSentences = data
+    }
+  },
+  getters: {
+    getSelectedList (state) {
+      return state.storedSentences.filter(element => state.selectedSentences.includes(element.id))
     }
   }
 }

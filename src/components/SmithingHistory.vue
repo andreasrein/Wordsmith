@@ -17,7 +17,7 @@
       </div>
       <div v-if="sentences.length > 0" class="smithing-history__list">
         <div class="smithing-history__list__header">
-          <div>Datum</div>
+          <div class="date">Datum</div>
           <div>Text</div>
         </div>
         <ul class="smithing-list">
@@ -27,6 +27,15 @@
             :key="sentence.id">
             <div class="smithing-list__item__date">{{convertDate(sentence.created)}}</div>
             <div data-cy="reversedSentence">{{sentence.reversed}}</div>
+            <div>
+              <input
+                type="checkbox"
+                :id="'sentence-' + sentence.id"
+                name="sentence"
+                :value="sentence.id"
+                :checked="chosenSentences.indexOf(sentence.id) > -1"
+                @change="handleCheckboxChange($event, sentence)">
+            </div>
           </li>
         </ul>
         <Pagination
@@ -46,47 +55,27 @@
         <template v-slot:header>Sortera</template>
         <section class="modal-sort">
           <div>
-            <div class="modal-sort__item">
+            <div class="modal-sort__item" v-for="date in dateRadio" :key="date.id">
               <input
                 type="radio"
-                id="dateDesc"
+                :id="date.id"
                 name="sort"
-                data-cy="sortCreatedDescRadio"
-                value="created_desc"
+                :data-cy="date.cy"
+                :value="date.value"
                 v-model="sortOption"/>
-              <label for="dateDesc">Datum (9-0)</label>
-            </div>
-            <div class="modal-sort__item">
-              <input
-                type="radio"
-                id="dateAsc"
-                name="sort"
-                data-cy="sortCreatedAscRadio"
-                value="created_asc"
-                v-model="sortOption"/>
-              <label for="dateAsc">Datum (0-9)</label>
+              <label :for="date.id">{{date.label}}</label>
             </div>
           </div>
           <div>
-            <div class="modal-sort__item">
+            <div class="modal-sort__item" v-for="text in textRadio" :key="text.id">
               <input
                 type="radio"
-                id="textAsc"
+                :id="text.id"
                 name="sort"
-                value="reversed_asc"
-                data-cy="sortTextAscRadio"
+                :data-cy="text.cy"
+                :value="text.value"
                 v-model="sortOption"/>
-              <label for="textAsc">Text (A-Ö)</label>
-            </div>
-            <div class="modal-sort__item">
-              <input
-                type="radio"
-                id="textDesc"
-                name="sort"
-                data-cy="sortTextDescRadio"
-                value="reversed_desc"
-                v-model="sortOption"/>
-              <label for="textDesc">Text (Ö-A)</label>
+              <label :for="text.id">{{text.label}}</label>
             </div>
           </div>
         </section>
@@ -110,7 +99,7 @@
 import SortIcon from '@/components/icons/SortIcon.vue'
 import Modal from '@/components/Modal.vue'
 import SpinnerIcon from '@/components/icons/SpinnerIcon.vue'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import Pagination from './Pagination.vue'
 
 export default {
@@ -120,7 +109,16 @@ export default {
       showModal: false,
       sortOption: 'created_desc',
       page: 0,
-      pageSize: 4
+      pageSize: 4,
+      chosenSentences: [],
+      dateRadio: [
+        {id: 'dateDesc', cy: 'sortCreatedDescRadio', value: 'created_desc', label: 'Datum (9-0)'},
+        {id: 'dateAsc', cy: 'sortCreatedAscRadio', value: 'created_asc', label: 'Datum (0-9)'}
+      ],
+      textRadio: [
+        {id: 'textAsc', cy: 'sortTextAscRadio', value: 'reversed_asc', label: 'Text (A-Ö)'},
+        {id: 'textDesc', cy: 'sortTextDescRadio', value: 'reversed_desc', label: 'Text (Ö-A)'}
+      ]
     }
   },
   components: {
@@ -148,6 +146,21 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      setSentences: 'sentence/SET_SELECTED_SENTENCES',
+    }),
+    handleCheckboxChange (e) {
+      const { value, checked } = e.target
+      if (checked) {
+        this.chosenSentences.push(value)
+      } else {
+        const index = this.chosenSentences.findIndex(id => id === value)
+        if (index > -1) {
+          this.chosenSentences.splice(index, 1)
+        }
+      }
+      this.setSentences(this.chosenSentences)
+    },
     sortArr (arr, dir, key) {
       const compare = (a, b) => {
         const aTarget = key === 'created' ? new Date(a.created).getTime() : a[key]
@@ -215,10 +228,13 @@ export default {
         font-weight: bold;
         flex: 1;
         display: grid;
-        grid-template-columns: 85px auto;
+        grid-template-columns: auto;
         column-gap: $gutter-xxl;
         border-top-left-radius: $border-radius;
         border-top-right-radius: $border-radius;
+        .date {
+          display: none;
+        }
       }
     }
     .smithing-list {
@@ -229,10 +245,10 @@ export default {
         margin-bottom: $gutter-xs;
         padding: $gutter-xl;
         display: grid;
-        grid-template-columns: 85px auto;
+        grid-template-columns: auto 24px;
         column-gap: $gutter-xxl;
         &__date {
-          display: flex;
+          display: none;
           align-items: center;
           font-weight: bold;
         }
@@ -261,10 +277,18 @@ export default {
   @media all and (min-width: 500px) {
     .smithing-history {
       &__list__header {
+        grid-template-columns: 85px auto;
         column-gap: calc($gutter-xxl * 2);
+        .date {
+          display: block;
+        }
       }
       .smithing-list__item {
         column-gap: calc($gutter-xxl * 2);
+        grid-template-columns: 85px auto 24px;
+        &__date {
+          display: flex;
+        }
       }
     }
     .modal-sort {

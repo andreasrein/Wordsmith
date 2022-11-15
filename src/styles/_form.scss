@@ -5,6 +5,9 @@ form {
     padding: $gutter-l;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 6px;
+    &.invalid {
+      outline: 1px solid red;
+    }
   }
   & label {
     margin-bottom: $gutter-xs;
