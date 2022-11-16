@@ -51,6 +51,24 @@ export const sentence = {
           commit('SET_SENTENCE_ERR', e)
           console.warn(e)
         })
+    },
+    postOrder ({rootState}, payload) {
+      return new Promise((resolve, reject) => {
+        const headers = {
+          headers: {
+            'Authorization': `Bearer ${rootState.auth.token}`,
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        }
+        axios.post(`${rootState.api}/order`, payload, headers)
+          .then((res) => {
+            resolve(res)
+          })
+          .catch(e => {
+            reject(e)
+          })
+      })
     }
   },
   mutations: {

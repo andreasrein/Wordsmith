@@ -53,7 +53,7 @@ export default {
     border-radius: $border-radius;
     transform: translate(-50%, -50%);
     overflow: auto;
-    padding: $gutter-l $gutter-xl;
+    padding: $gutter-xl;
     z-index: 99999;
     box-shadow: 0 4px 16px 0 rgba($green-2, .3);
     &--s, &--m {

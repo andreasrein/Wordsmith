@@ -13,8 +13,11 @@
       class="footer__modal"
     >
       <template v-slot:header v-if="modalStep !== 3">Beställ</template>
+      <AlertBlock v-if="postError.show" label="Hoppsan!" :err="postError.msg">
+        Något gick fel när vi försökte skicka din beställning. Försök igen!
+      </AlertBlock>
       <section v-if="modalStep === 0">
-        <p>
+        <p class="footer__modal__ingress">
           Här beställer du hem meningar till din dörr. De meningar du valt i
           historiklistan kommer listas här.
         </p>
@@ -22,7 +25,7 @@
           Du har inte valt några meningar ännu!
         </p>
         <ul class="footer__modal__list">
-          <li v-for="sentence in selectedList" :key="sentence">
+          <li v-for="sentence in selectedList" :key="sentence" class="footer__modal__list__item">
             {{ sentence.reversed }}
           </li>
         </ul>
@@ -39,6 +42,7 @@
               :name="item.name"
               :ref="item.id"
               :placeholder="item.placeholder"
+              v-model="formData[item.id]"
             />
           </div>
         </form>
@@ -71,71 +75,114 @@
 </template>
 
 <script>
-import Modal from "@/components/Modal.vue"
+import Modal from '@/components/Modal.vue'
 import Checkmark from '@/components/icons/Checkmark.vue'
-import { mapState, mapGetters } from "vuex"
+import { mapState, mapGetters, mapActions } from 'vuex'
+import AlertBlock from './AlertBlock.vue'
 
 export default {
-  name: "Footer",
+  name: 'Footer',
   components: {
     Modal,
-    Checkmark
+    Checkmark,
+    AlertBlock
   },
   data() {
     return {
       showModal: false,
       modalStep: 0,
+      postError: {
+        show: false,
+        msg: null
+      },
       formItems: [
-        { id: "orderName", type: "text", name: "name", placeholder: "Kalle Kula", label: "Namn" },
-        { id: "orderStreet", type: "text", name: "street", placeholder: "Gatan 2", label: "Gata" },
-        { id: "orderPostCode", type: "text", name: "postal-code", placeholder: "12345", label: "Postnummer" },
-        { id: "orderCity", type: "text", name: "city", placeholder: "Staden", label: "Stad" },
+        { id: 'orderName', type: 'text', name: 'name', placeholder: 'Kalle Kula', label: 'Namn' },
+        { id: 'orderStreet', type: 'text', name: 'street', placeholder: 'Gatan 2', label: 'Gata' },
+        { id: 'orderPostCode', type: 'text', name: 'postal-code', placeholder: '12345', label: 'Postnummer' },
+        { id: 'orderCity', type: 'text', name: 'city', placeholder: 'Staden', label: 'Stad' }
       ],
+      formData: {
+        orderName: '',
+        orderStreet: '',
+        orderPostCode: '',
+        orderCity: ''
+      },
       isInvalid: {
         orderName: false,
         orderStreet: false,
         orderPostCode: false,
-        orderCity: false,
-      },
-    };
+        orderCity: false
+      }
+    }
   },
   computed: {
     ...mapState({
       selectedSentences: (state) => state.sentence.selectedSentences,
     }),
     ...mapGetters({
-      selectedList: "sentence/getSelectedList",
+      selectedList: 'sentence/getSelectedList',
     }),
   },
   methods: {
+    ...mapActions({
+      postOrder: 'sentence/postOrder'
+    }),
     handleOrder() {
-      let hasAnyError = false;
+      this.postError.show = false
+      let hasAnyError = false
       for (const key in this.isInvalid) {
         if (Object.hasOwnProperty.call(this.isInvalid, key)) {
-          if (this.$refs[key][0].value === "") {
-            this.isInvalid[key] = true;
-            hasAnyError = true;
+          if (key === 'orderPostCode') {
+            const nr = isNaN(this.formData.orderPostCode)
+            if (nr) {
+              this.isInvalid[key] = true
+              hasAnyError = true
+            }
+          } else if (this.$refs[key][0].value === '') {
+            this.isInvalid[key] = true
+            hasAnyError = true
           } else {
-            this.isInvalid[key] = false;
+            this.isInvalid[key] = false
           }
         }
       }
       if (!hasAnyError) {
-        this.modalStep = 3;
-        console.log("can order");
+        this.loadingOrder = true
+        const payload = {
+          reversedSentences: this.selectedList.map(item => item.reversed),
+          name: this.formData.orderName,
+          street: this.formData.orderStreet,
+          postCode: Number(this.formData.orderPostCode),
+          city: this.formData.orderCity
+        }
+        this.postOrder(payload)
+          .then(() => {
+            this.loadingOrder = false
+            this.modalStep = 3
+            setTimeout(() => {
+              this.showModal = false
+            }, 2500)
+          })
+          .catch(e => {
+            this.postError = {
+              show: true,
+              msg: e
+            }
+            this.loadingOrder = false
+          })
       }
     },
     handleContinue() {
-      this.modalStep = 1;
+      this.modalStep = 1
     },
     toggleModal() {
-      this.showModal = !this.showModal;
+      this.showModal = !this.showModal
     },
     handleLogout() {
-      this.$store.commit("auth/LOGOUT");
+      this.$store.commit('auth/LOGOUT')
     },
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss">
@@ -147,6 +194,10 @@ export default {
   justify-content: center;
   align-items: center;
   &__modal {
+    &__ingress {
+      font-size: 18px;
+      margin-bottom: $gutter-xl;
+    }
     &__form {
       .form-item {
         display: flex;
@@ -156,6 +207,9 @@ export default {
     }
     &__list {
       margin-top: $gutter-xl 0;
+      &__item {
+        margin-bottom: $gutter-l;
+      }
     }
     &__footer {
       display: flex;

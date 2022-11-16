@@ -26,6 +26,7 @@ export default {
   margin-bottom: $gutter-xl;
   background-color: $yellow-1;
   border-radius: $border-radius;
+  box-shadow: 0 4px 16px 0 rgba($black, .3);
   &__header {
     margin-bottom: $gutter-s;
   }
