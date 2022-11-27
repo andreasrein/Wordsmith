@@ -32,9 +32,10 @@ describe('SmithingInput', () => {
     })
 
     const input = wrapper.find({ ref: 'smithingInput' })
-    await input.setValue(inputValue)
+    input.setValue(inputValue)
     expect(input.element.value).toBe(inputValue)
-    await wrapper.find({ ref: 'smithingButton' }).trigger('click')
+
+    await wrapper.find('form').trigger('submit.prevent')
     expect(mockedPostSentence).toHaveBeenCalledTimes(1)
     expect(wrapper.vm.result).toBe(reverserdInputValue)
   })
