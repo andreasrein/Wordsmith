@@ -99,7 +99,7 @@
 import SortIcon from '@/components/icons/SortIcon.vue'
 import Modal from '@/components/Modal.vue'
 import SpinnerIcon from '@/components/icons/SpinnerIcon.vue'
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import Pagination from './Pagination.vue'
 
 export default {
@@ -128,7 +128,7 @@ export default {
     Pagination
   },
   mounted () {
-    this.getSentencesList()
+    this.getSentences()
   },
   computed: {
     ...mapState({
@@ -148,6 +148,9 @@ export default {
   methods: {
     ...mapMutations({
       setSentences: 'sentence/SET_SELECTED_SENTENCES',
+    }),
+    ...mapActions({
+      getSentences: 'sentence/getSentences',
     }),
     handleCheckboxChange (e) {
       const { value, checked } = e.target
@@ -172,9 +175,6 @@ export default {
     },
     handlePaginate (val) {
       this.page = val
-    },
-    getSentencesList () {
-      this.$store.dispatch('sentence/getSentences')
     },
     convertDate (string) {
       return (new Date(string)).toISOString().split('T')[0]

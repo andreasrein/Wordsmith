@@ -13,6 +13,7 @@ export const auth = {
   actions: {
     login ({ commit, dispatch, rootState, state }, payload) {
       commit('SET_LOADING_LOGIN', true)
+      // Clear if any error
       if (state.loginErr) {
         commit('SET_UNAUTH', null)
       }
@@ -25,19 +26,22 @@ export const auth = {
 
       axios.post(`${rootState.api}/login`, payload, headers)
         .then(res => {
+          // Save token
           commit('SET_AUTH', res.data.token)
           commit('SET_LOADING_LOGIN', false)
+          // Start token polling
           dispatch('tokenRefresh')
         })
         .catch(e => {
+
           commit('SET_UNAUTH', e)
           commit('SET_LOADING_LOGIN', false)
           console.warn(e)
         })
     },
     checkIfAuthorized ({ dispatch, commit }) {
+      // Logout if no token or expired token
       const token = localStorage.getItem('ws_token')
-
       if (token && !hasTokenExpired(token)) {
         commit('SET_AUTH', token)
         dispatch('tokenRefresh')
@@ -46,6 +50,7 @@ export const auth = {
       }
     },
     tokenRefresh ({state, commit}) {
+      // Poll once every 30 sec to check token expiration
       this.tokenPoll = setInterval(() => {
         if (!state.token || hasTokenExpired(state.token)) {
           commit('LOGOUT')

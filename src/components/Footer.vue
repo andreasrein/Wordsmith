@@ -3,7 +3,7 @@
     <button type="button" class="minor minor--green" @click="toggleModal">
       Beställ meningar
     </button>
-    <button type="button" class="minor minor--green" @click="handleLogout">
+    <button type="button" class="minor minor--green" @click="logout">
       Logga ut
     </button>
     <Modal
@@ -77,7 +77,7 @@
 <script>
 import Modal from '@/components/Modal.vue'
 import Checkmark from '@/components/icons/Checkmark.vue'
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 import AlertBlock from './AlertBlock.vue'
 
 export default {
@@ -125,7 +125,10 @@ export default {
   },
   methods: {
     ...mapActions({
-      postOrder: 'sentence/postOrder'
+      postOrder: 'sentence/postOrder',
+    }),
+    ...mapMutations({
+      logout: 'auth/LOGOUT'
     }),
     handleOrder() {
       this.postError.show = false
@@ -177,10 +180,7 @@ export default {
     },
     toggleModal() {
       this.showModal = !this.showModal
-    },
-    handleLogout() {
-      this.$store.commit('auth/LOGOUT')
-    },
+    }
   }
 }
 </script>

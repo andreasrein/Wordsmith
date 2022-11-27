@@ -9,13 +9,19 @@
 <script>
 import './styles/index.scss';
 import { RouterView } from 'vue-router';
+import { mapActions } from 'vuex'
 
 export default {
   components: {
     RouterView
   },
   created () {
-    this.$store.dispatch('auth/checkIfAuthorized')
+    this.checkIfAuth()
+  },
+  methods: {
+    ...mapActions({
+      checkIfAuth: 'auth/checkIfAuthorized'
+    })
   }
 }
 </script>
