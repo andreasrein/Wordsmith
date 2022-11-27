@@ -1,12 +1,12 @@
 <template>
   <div class="smithing-input">
     <section class="smithing-input__result">
-      <div v-if="!loading" class="smithing-input__result__content">{{result}}</div>
-      <div v-show="loading" class="smithing-input__result__logo">
+      <div v-if="!smithing" class="smithing-input__result__content">{{result}}</div>
+      <div v-show="smithing" class="smithing-input__result__logo">
         <AcronymLogo />
       </div>
     </section>
-    <form class="smithing-input__form">
+    <form class="smithing-input__form" @submit.prevent="handleSmithClick">
       <div class="smithing-input__form__input">
         <label for="smithing-field">Skriv din mening här</label>
         <input
@@ -19,10 +19,9 @@
       </div>
       <div class="smithing-input__form__button">
         <button
-          type="button"
+          type="submit"
           class="primary"
-          :disabled="smithInput.length < 1"
-          @click="handleSmithClick"
+          :disabled="smithInput.length < 1 || loading"
           ref="smithingButton"
           data-cy="smithingButton">
           Smith it!
@@ -42,7 +41,8 @@ export default {
     return {
       smithInput: '',
       result: null,
-      loading: false
+      loading: false,
+      smithing: false
     }
   },
   methods: {
@@ -51,11 +51,17 @@ export default {
     }),
     handleSmithClick () {
       this.loading = true
+      this.smithing = true
       // Split and reverse on everything that is not matched
       const result = this.smithInput.split(/([^a-zA-ZÅÄÖåäö0-9_])/).
         map(word => {
           return word.split('').reverse().join('')
         }).join('')
+
+      // Timeout for dramatic effect
+      setTimeout(() => {
+        this.smithing = false
+      }, 1500)
 
       const payload = {
         sentence: this.smithInput,
@@ -63,10 +69,10 @@ export default {
       }
       this.postSentence(payload)
         .then(() => {
-          // Timeout for dramatic effect
-          setTimeout(() => {
-            this.loading = false
-          }, 1500)
+          this.loading = false
+        })
+        .catch(() => {
+          this.loading = false
         })
 
       this.result = result
