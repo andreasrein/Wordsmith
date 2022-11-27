@@ -12,14 +12,14 @@
       @onClose="toggleModal"
       class="footer__modal"
     >
-      <template v-slot:header v-if="modalStep !== 3">Beställ</template>
+      <template v-slot:header v-if="modalStep !== 3">Beställ meningar</template>
       <AlertBlock v-if="postError.show" label="Hoppsan!" :err="postError.msg">
         Något gick fel när vi försökte skicka din beställning. Försök igen!
       </AlertBlock>
       <section v-if="modalStep === 0">
         <p class="footer__modal__ingress">
-          Här beställer du hem meningar till din dörr. De meningar du valt i
-          historiklistan kommer listas här.
+          Här beställer du hem meningar till din dörr.<br>
+          De meningar du valt i historiklistan kommer listas här.
         </p>
         <p v-if="selectedList.length === 0">
           Du har inte valt några meningar ännu!
