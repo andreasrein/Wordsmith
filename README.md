@@ -1,5 +1,8 @@
 # Wordsmith
 
+## Requirements
+- Node.js 14 LTS or >=16.0.0
+
 ## Project setup
 ```
 yarn install

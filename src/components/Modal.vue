@@ -31,7 +31,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .modal {
   &__cover {
     position: fixed;
@@ -75,7 +75,7 @@ export default {
 }
 @media all and (min-width: calc(800px + ($gutter-l * 2))) {
   .modal__inner--m {
-    max-width: 800px;
+    max-width: 660px;
   }
 }
 </style>

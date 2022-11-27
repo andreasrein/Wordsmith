@@ -1,14 +1,14 @@
 module.exports = {
   root: true,
   env: {
-    node: true,
+    node: true
   },
   extends: [
     "plugin:vue/vue3-essential",
     "eslint:recommended"
   ],
   parserOptions: {
-    parser: "@babel/eslint-parser",
+    parser: "@babel/eslint-parser"
   },
   rules: {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
@@ -25,11 +25,11 @@ module.exports = {
     {
       files: [
         "**/__tests__/*.js",
-        "**/tests/unit/**/*.spec.js",
+        "**/tests/unit/**/*.spec.js"
       ],
       env: {
-        jest: true,
-      },
-    },
-  ],
-};
+        jest: true
+      }
+    }
+  ]
+}

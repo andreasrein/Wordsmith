@@ -20,7 +20,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .alert-block {
   padding: $gutter-l;
   margin-bottom: $gutter-xl;

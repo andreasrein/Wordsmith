@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex'
 import SpinnerIcon from '@/components/icons/SpinnerIcon.vue'
 import AlertBlock from '@/components/AlertBlock.vue'
 
@@ -100,7 +100,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .login-form {
   display: flex;
   flex: none;

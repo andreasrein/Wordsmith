@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import './styles/index.scss';
-import { RouterView } from 'vue-router';
+import './styles/index.scss'
+import { RouterView } from 'vue-router'
 import { mapActions } from 'vuex'
 
 export default {

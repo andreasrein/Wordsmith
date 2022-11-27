@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import LoginForm from '../components/LoginForm.vue';
-import MainLogo from '../components/icons/MainLogo.vue';
-import BackgroundLetter from '../components/icons/BackgroundLetter.vue';
+import LoginForm from '../components/LoginForm.vue'
+import MainLogo from '../components/icons/MainLogo.vue'
+import BackgroundLetter from '../components/icons/BackgroundLetter.vue'
 
 export default {
   name: 'LoginView',
@@ -32,7 +32,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .login-view {
   display: flex;
   min-height: 100vh;
