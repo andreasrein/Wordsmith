@@ -1,9 +1,9 @@
 <template>
   <section class="smithing-history">
-    <div v-show="loadingSentences" class="smithing-history__logo">
+    <div v-show="loading" class="smithing-history__logo">
       <SpinnerIcon/>
     </div>
-    <div v-if="!loadingSentences">
+    <div v-if="!loading">
       <div class="smithing-history__header">
         <h3>Tidigare meningar</h3>
         <button
@@ -106,6 +106,7 @@ export default {
   name: 'SmithingList',
   data () {
     return {
+      loading: false,
       showModal: false,
       sortOption: 'created_desc',
       page: 0,
@@ -128,12 +129,18 @@ export default {
     Pagination
   },
   mounted () {
+    this.loading = true
     this.getSentences()
+      .then(() => {
+        this.loading = false
+      })
+      .catch(() => {
+        this.loading = false
+      })
   },
   computed: {
     ...mapState({
-      sentences: state => state.sentence.storedSentences,
-      loadingSentences: state => state.sentence.loadingSentences
+      sentences: state => state.sentence.storedSentences
     }),
     paginatedSentences () {
       if (this.sentences.length > 0) {

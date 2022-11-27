@@ -13,7 +13,7 @@
           name="email"
           placeholder="john.doh@email.com"
           aria-required="true"
-          :disabled="loadingLogin"
+          :disabled="loading"
           ref="loginEmail"
           data-cy="loginEmail"
           v-model="username"
@@ -27,14 +27,14 @@
           name="password"
           placeholder="********"
           aria-required="true"
-          :disabled="loadingLogin"
+          :disabled="loading"
           ref="loginPassword"
           data-cy="loginPassword"
           v-model="password"
         />
       </div>
       <div class="login-form__button">
-        <div v-if="loadingLogin" class="login-form__button__spinner">
+        <div v-if="loading" class="login-form__button__spinner">
           <SpinnerIcon/>
         </div>
         <button
@@ -42,7 +42,7 @@
           class="primary"
           :disabled="isButtonDisabled"
           data-cy="loginSubmit">
-          <span>{{loadingLogin ? 'Loggar in' : 'Logga in'}}</span>
+          <span>{{loading ? 'Loggar in' : 'Logga in'}}</span>
         </button>
       </div>
     </form>
@@ -63,7 +63,8 @@ export default {
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      loading: false
     }
   },
   methods: {
@@ -71,20 +72,26 @@ export default {
       login: 'auth/login'
     }),
     handleSubmit () {
+      this.loading = true
       const payload = {
         username: this.username,
         password: this.password
       }
       this.login(payload)
+        .then(() => {
+          this.loading = false
+        })
+        .catch(() => {
+          this.loading = false
+        })
     }
   },
   computed: {
     ...mapState({
-      loginErr: state => state.auth.loginErr,
-      loadingLogin: state => state.auth.loadingLogin,
+      loginErr: state => state.auth.loginErr
     }),
     isButtonDisabled () {
-      if ((this.username.length < 1 && this.password.length < 1) || this.loadingLogin) {
+      if ((this.username.length < 1 && this.password.length < 1) || this.loading) {
         return true
       }
       return false

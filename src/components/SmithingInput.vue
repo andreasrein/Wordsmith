@@ -51,10 +51,6 @@ export default {
     }),
     handleSmithClick () {
       this.loading = true
-      // Timeout for dramatic effect
-      setTimeout(() => {
-        this.loading = false
-      }, 1500)
       // Split and reverse on everything that is not matched
       const result = this.smithInput.split(/([^a-zA-ZÅÄÖåäö0-9_])/).
         map(word => {
@@ -66,6 +62,12 @@ export default {
         reversed: result
       }
       this.postSentence(payload)
+        .then(() => {
+          // Timeout for dramatic effect
+          setTimeout(() => {
+            this.loading = false
+          }, 1500)
+        })
 
       this.result = result
       this.smithInput = ''

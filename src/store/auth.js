@@ -7,37 +7,35 @@ export const auth = {
   state: {
     token: null,
     tokenPoll: null,
-    loginErr: null,
-    loadingLogin: false
+    loginErr: null
   },
   actions: {
     login ({ commit, dispatch, rootState, state }, payload) {
-      commit('SET_LOADING_LOGIN', true)
-      // Clear if any error
-      if (state.loginErr) {
-        commit('SET_UNAUTH', null)
-      }
-      const headers = { 
-        headers: {
-          'accept': 'application/json',
-          'Content-Type': 'application/json'
+      return new Promise((resolve, reject) => {
+        // Clear if any error
+        if (state.loginErr) {
+          commit('SET_UNAUTH', null)
         }
-      }
+        const headers = {
+          headers: {
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        }
 
-      axios.post(`${rootState.api}/login`, payload, headers)
-        .then(res => {
-          // Save token
-          commit('SET_AUTH', res.data.token)
-          commit('SET_LOADING_LOGIN', false)
-          // Start token polling
-          dispatch('tokenRefresh')
-        })
-        .catch(e => {
-
-          commit('SET_UNAUTH', e)
-          commit('SET_LOADING_LOGIN', false)
-          console.warn(e)
-        })
+        axios.post(`${rootState.api}/login`, payload, headers)
+          .then(res => {
+            // Save token
+            commit('SET_AUTH', res.data.token)
+            // Start token polling
+            dispatch('tokenRefresh')
+            resolve(res)
+          })
+          .catch(e => {
+            commit('SET_UNAUTH', e)
+            reject(e)
+          })
+      })
     },
     checkIfAuthorized ({ dispatch, commit }) {
       // Logout if no token or expired token
@@ -74,9 +72,6 @@ export const auth = {
     },
     SET_UNAUTH (state, data) {
       state.loginErr = data
-    },
-    SET_LOADING_LOGIN (state, data) {
-      state.loadingLogin = data
     }
   }
 }
