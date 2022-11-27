@@ -39,7 +39,7 @@ export default {
   },
   computed: {
     maxPage () {
-      return Math.floor(this.total / this.pageSize)
+      return Math.floor((this.total - 1) / this.pageSize)
     }
   },
   methods: {
