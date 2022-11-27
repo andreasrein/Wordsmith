@@ -63,14 +63,20 @@ export default {
     display: flex;
     width: 100%;
     justify-content: center;
-    margin-bottom: calc($gutter-xxl * 3);
+    margin-bottom: 0;
     max-width: 340px;
-    margin-top: 10vh;
+    margin-top: 0;
     padding: $gutter-l;
   }
   &__err {
     width: 100%;
     padding: $gutter-l;
+  }
+}
+@media all and (min-width: 500px) {
+  .home__logo {
+    margin-top: 10vh;
+    margin-bottom: calc($gutter-xxl * 3);
   }
 }
 </style>
